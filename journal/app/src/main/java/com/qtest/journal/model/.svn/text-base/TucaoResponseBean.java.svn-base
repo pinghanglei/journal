@@ -1,0 +1,25 @@
+package com.qtest.tucao.model;
+
+import java.io.Serializable;
+
+public class TucaoResponseBean implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private int errcode;
+	private String errmsg;
+
+
+	public String getMsg() {
+		return errmsg;
+	}
+	public void setMsg(String msg) {
+		this.errmsg = msg;
+	}
+	
+	public int getErrcode() {
+		return errcode;
+	}
+	public void setErrcode(int errcode) {
+		this.errcode = errcode;
+	}
+}

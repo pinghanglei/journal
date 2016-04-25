@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/webtest/!svn/ver/8951/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util
+END
+ImageUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/webtest/!svn/ver/8295/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/ImageUtil.java
+END
+Utils.java
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/webtest/!svn/ver/8089/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/Utils.java
+END
+Log.java
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/webtest/!svn/ver/8089/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/Log.java
+END
+TextLoading.java
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svn/webtest/!svn/ver/8422/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/TextLoading.java
+END
+ConfigUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/webtest/!svn/ver/8896/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/ConfigUtil.java
+END
+MD5Util.java
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/svn/webtest/!svn/ver/8295/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/MD5Util.java
+END
+ImageAccess.java
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svn/webtest/!svn/ver/8853/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/ImageAccess.java
+END
+PhotoUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/webtest/!svn/ver/8852/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/PhotoUtil.java
+END
+BaseUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svn/webtest/!svn/ver/8817/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/BaseUtil.java
+END
+StreamTool.java
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/webtest/!svn/ver/8089/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/StreamTool.java
+END
+Constants.java
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/webtest/!svn/ver/8951/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/Constants.java
+END
+FileUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svn/webtest/!svn/ver/8448/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/FileUtil.java
+END
+AndroidUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svn/webtest/!svn/ver/8426/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/util/AndroidUtil.java
+END

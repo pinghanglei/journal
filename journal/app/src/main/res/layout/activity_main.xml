@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/titlebar_main"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/titlebar" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:shadowColor="@color/black"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/titlebar_manage_btn"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:background="@drawable/selector_titilebar_btn_bg"
+            android:contentDescription="@string/contentDescription"
+            android:src="@drawable/manage" />
+
+        <TextView
+            android:id="@+id/main_pop_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/image_pop"
+            android:gravity="center"
+            android:textColor="@color/main_pop_text_color"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <include
+            android:id="@+id/no_data_view"
+            layout="@layout/no_data"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/net_error_view"
+            layout="@layout/net_error"
+            android:visibility="gone" />
+
+        <com.qtest.journal.widget.PullRefreshView
+            android:id="@+id/pull_refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <include
+                android:id="@+id/fresh_header"
+                layout="@layout/pull_refresh_header" />
+
+            <com.qtest.journal.widget.Pull_Refresh_ListView
+                android:id="@+id/listview"
+                style="@style/ListViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+        </com.qtest.journal.widget.PullRefreshView>
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,76 @@
+package com.qtest.tucao.task;
+
+import java.lang.reflect.Type;
+import java.net.URI;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.os.Build;
+import android.view.View;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.qtest.tucao.httpUtils.HttpUtil;
+import com.qtest.tucao.httpUtils.UriUtil;
+import com.qtest.tucao.httpUtils.UriUtil.OnNetRequestListenerForZan;
+import com.qtest.tucao.model.Result;
+
+public class AddZanTask extends BaseTask<Void, Void, Result<String>> {
+	private Context context;
+	private String tid;
+	String token;
+	private OnNetRequestListenerForZan<Result<String>> onNetRequestListenerForZan;
+	private View viewZan;
+	
+	public AddZanTask(Context context, String tid,String token, View viewZan,
+			OnNetRequestListenerForZan<Result<String>> onNetRequestListenerForZan) {
+		super();
+		this.context = context;
+		this.tid = tid;
+		this.token = token;
+		this.onNetRequestListenerForZan = onNetRequestListenerForZan;
+		this.viewZan = viewZan;
+	}
+
+
+	@Override
+	protected Result<String> doInBackground(Void... params) {
+		try {
+			URI uri = UriUtil.getAddZanUri(context,"Support","addSupport" ,tid,token);
+			String result = HttpUtil.doGetRequest(uri);
+			Gson gson = new Gson();
+			Type type = new TypeToken<Result<String>>(){}.getType();
+			return gson.fromJson(result, type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	@Override
+	protected void onPostExecute(Result<String> result) {
+		super.onPostExecute(result);
+		if(onNetRequestListenerForZan!=null){
+			onNetRequestListenerForZan.onNetRequest(result, viewZan);
+		}
+	}
+
+
+	@Override
+	protected void onCancelled() {
+		super.onCancelled();
+		if(onNetRequestListenerForZan!=null){
+			onNetRequestListenerForZan.onNetRequest(null, viewZan);
+		}
+	}
+	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
+	protected void onCancelled(Result<String> result) {
+		super.onCancelled(result);
+		if(onNetRequestListenerForZan!=null){
+			onNetRequestListenerForZan.onNetRequest(null, viewZan);
+		}
+	}
+}

@@ -1,0 +1,97 @@
+package com.qtest.tucao.task;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIUtils;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+
+import com.qtest.tucao.httpUtils.HttpUtil;
+import com.qtest.tucao.httpUtils.UriUtil.OnNetRequestListener;
+import com.qtest.tucao.util.Constants;
+
+public class LoginTask extends BaseTask<Void, Void, JSONObject> {
+
+	private String userName;
+	private String passWord;
+	private String IMEI;
+	private int anonymous;
+	// private Context context;
+	private OnNetRequestListener<JSONObject> listener;
+
+	public LoginTask(Context context, int anonymous, OnNetRequestListener<JSONObject> listener) {
+
+		super();
+		// this.context = context;
+		this.IMEI = "56";
+		// this.IMEI = BaseUtil.getIMEI(context);
+		this.anonymous = anonymous;
+		this.listener = listener;
+	}
+
+	@Override
+	protected JSONObject doInBackground(Void... params) {
+		String result = HttpUtil.doGetRequest(getLoginUri());
+		JSONObject object = null;
+		try {
+			if (result != null)
+				object = new JSONObject(result);
+			else
+				return null;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return object;
+	}
+
+	@Override
+	protected void onPostExecute(JSONObject result) {
+		super.onPostExecute(result);
+		if (listener != null) {
+			listener.onNetRequest(result);
+		}
+	}
+
+	private URI getLoginUri() {
+		try {
+
+			URI uri = URIUtils.createURI(Constants.PROTOCOL, Constants.HOST, Constants.PORT, Constants.LOGIN,
+					URLEncodedUtils.format(getParam(), Constants.ENCODING), null);
+			if (uri != null)
+				return uri;
+
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private List<NameValuePair> getParam() {
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
+		if (anonymous == 1) {
+			list.add(new BasicNameValuePair("m", "User"));
+			list.add(new BasicNameValuePair("a", "getToken"));
+
+			list.add(new BasicNameValuePair("imei", IMEI));
+
+			// list.add(new BasicNameValuePair("isuser", "1"));
+
+		}
+		if (anonymous == 0) {
+			list.add(new BasicNameValuePair("imei", IMEI));
+			list.add(new BasicNameValuePair("passWord", passWord));
+			list.add(new BasicNameValuePair("userName", userName));
+		}
+
+		return list;
+	}
+
+}

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">互联网树洞</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="tucao">吐槽</string>
+    <string name="dialog_doing">操作正在进行中， 请稍后&#8230;</string>
+    <string name="contentDescription">contentDescription</string>
+    <string name="exit_text">再按一次 退出程序</string>
+
+    <!-- 下拉刷新 -->
+    <string name="pull_down_refresh">下拉刷新</string>
+    <string name="loosen_refresh">松开刷新</string>
+    <string name="send">发送</string>
+    <string name="send_success">发送成功</string>
+    <string name="username_input">输入用户名</string>
+    <string name="password_input">输入密码</string>
+    <string name="password_input_confirm">再次输入密码</string>
+    <string name="login">登录</string>
+    <string name="anymon_login">匿名登录</string>
+    <string name="regis">注册</string>
+    <string name="head_left_imageview_descript">顶部左图片</string>
+    <string name="back_main">返回</string>
+    <string name="submit_rotast">吐槽</string>
+    <string name="no_data">这里没有你想要的东西...</string>
+    <string name="network">网络不给力？请检查网络连接</string>
+    <string name="want_rotast">说给树洞</string>
+    <string name="anonymous">匿名</string>
+    <string name="rotast_tishi">把您每天不爽的都吐出来吧，一吐为快</string>
+    <string name="content_black">还没吐呢，吐了才能提交哟</string>
+    <string name="content_lessLength">就这么点，再吐点再提交吧</string>
+    <string name="content_mostLength">最多只能吐140个字哦~</string>
+    <string name="select_picture_menu">选择照片来源</string>
+    <string name="cancel">取消</string>
+    <string name="menu_camera">用相机拍照</string>
+    <string name="menu_gallery">在相册中选择</string>
+    <string name="sdcard_unmount_tips">没有存储卡</string>
+    <string name="gallery_cannot_select">该相册的照片无法选择，请选择其它相册的照片</string>
+    <string name="delete">删除当前图片</string>
+    <string name="photo_delete">图片已删除</string>
+    <string name="delete_photo_confirm">确定删除当前图片</string>
+    <string name="btn_qihoo">数字公司</string>
+    <string name="btn_baidu">度娘</string>
+    <string name="btn_tencent">企鹅</string>
+    <string name="btn_taobao">某宝</string>
+    <string name="send_cmt">匿名发表评论</string>
+    <string name="pull_fresh_header_text1">下拉可以刷新</string>
+    <string name="pull_fresh_header_text2">松开可以刷新</string>
+
+    <string-array name="avatars">
+        <item>http://p9.qhimg.com/t01fb81ae6438af4d9c.jpg</item>
+        <item>http://p6.qhimg.com/t0135a2e1b150a042ca.jpg</item>
+        <item>http://p5.qhimg.com/t01aa53de3b81c3fcc3.jpg</item>
+        <item>http://p2.qhimg.com/t0162a6d7cfde421dd6.jpg</item>
+        <item>http://p2.qhimg.com/t0161d4d7b740e20531.jpg</item>
+        <item>http://p8.qhimg.com/t01114e07e0eaa86204.jpg</item>
+        <item>http://p1.qhimg.com/t0105f9e19716c7d6e3.jpg</item>
+        <item>http://p2.qhimg.com/t01cf633f341ed87a32.jpg</item>
+        <item>http://p3.qhimg.com/t01974cb0dc8ad105c9.jpg</item>
+        <item>http://p4.qhimg.com/t01a17c84e9948794f3.jpg</item>
+        <item>http://p8.qhimg.com/t010d311a4784112860.jpg</item>
+        <item>http://p2.qhimg.com/t0113ece7da4a29adfd.jpg</item>
+        <item>http://p8.qhimg.com/t010f107ccbba16e772.jpg</item>
+        <item>http://p0.qhimg.com/t0197b32afe3dbc280b.jpg</item>
+        <item>http://p4.qhimg.com/t01a029447f1f02d1a9.jpg</item>
+        <item>http://p8.qhimg.com/t01eef90b83ebfba8f9.jpg</item>
+        <item>http://p3.qhimg.com/t0164dd5f234f99d28b.jpg</item>
+        <item>http://p1.qhimg.com/t01fe41a49f0d1c3ad2.jpg</item>
+        <item>http://p5.qhimg.com/t0137d3259b9755afcf.jpg</item>
+    </string-array>
+
+    <!-- 登录注册页 -->
+    <string name="login_fail">匿名登录失败， 请稍后重试</string>
+    <string name="login_button_login_text">登录</string>
+    <string name="login_button_anony_text">匿名登录，放心吐槽-_-</string>
+    <string name="jsonparse_exception">服务器返回数据解析异常</string>
+    <string name="login_descripte">吐槽应用，吐吐更健康</string>
+    <string name="anony_login_text">匿名登录，放心吐槽-_-</string>
+    <string name="register_text">注册个账号，明目张胆吐槽</string>
+    <string name="register_page_describle">注册用户名</string>
+    <string name="register_submit_text">注册</string>
+    <string name="register_anony_again">算了，先匿名进去看看</string>
+    <string name="login_textview_resigter_text">注册账号, 拥有自己独享的用户名</string>
+
+    <!-- slidemenu -->
+    <string name="slidemenu_imageview_account_describle">默认头像</string>
+    <string name="loading_more">正在加载更多&#8230;</string>
+
+</resources>

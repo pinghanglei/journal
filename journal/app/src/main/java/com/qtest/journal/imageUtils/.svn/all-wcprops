@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/webtest/!svn/ver/8880/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/imageUtils
+END
+ImageCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 172
+/svn/webtest/!svn/ver/8815/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/imageUtils/ImageCallback.java
+END
+Utils.java
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svn/webtest/!svn/ver/8880/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/imageUtils/Utils.java
+END
+ImageLoad.java
+K 25
+svn:wc:ra_dav:version-url
+V 168
+/svn/webtest/!svn/ver/8815/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/imageUtils/ImageLoad.java
+END
+RoundedDrawable.java
+K 25
+svn:wc:ra_dav:version-url
+V 174
+/svn/webtest/!svn/ver/8254/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/imageUtils/RoundedDrawable.java
+END
+ImageToSdcard.java
+K 25
+svn:wc:ra_dav:version-url
+V 172
+/svn/webtest/!svn/ver/8254/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/imageUtils/ImageToSdcard.java
+END
+OptionsManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 173
+/svn/webtest/!svn/ver/8254/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/imageUtils/OptionsManager.java
+END
+TaskManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/svn/webtest/!svn/ver/8254/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/imageUtils/TaskManager.java
+END
+RecyclingBitmapDrawable.java
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svn/webtest/!svn/ver/8254/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/imageUtils/RecyclingBitmapDrawable.java
+END

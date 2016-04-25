@@ -1,0 +1,96 @@
+package com.qtest.tucao.task;
+
+import java.io.File;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.message.BasicNameValuePair;
+
+import android.app.Activity;
+import android.text.TextUtils;
+
+import com.google.gson.Gson;
+import com.qtest.tucao.httpUtils.HttpUtil;
+import com.qtest.tucao.httpUtils.UriUtil;
+import com.qtest.tucao.httpUtils.UriUtil.OnNetRequestListener;
+import com.qtest.tucao.model.TucaoResponseBean;
+
+public class PostTucaoTask extends BaseTask<Void, Void, TucaoResponseBean> {
+
+	private String m;
+	private String a;
+	private String msg;
+
+	private String isuser;
+	private int company_id;
+	private String token;
+	private String image;
+	private OnNetRequestListener<TucaoResponseBean> onNetRequestListener;
+	private ArrayList<NameValuePair> params;
+
+	public PostTucaoTask(Activity activity, String model, String method, String content, int company_id, String isuser, String token, String image,
+			OnNetRequestListener<TucaoResponseBean> onNetRequestListener) {
+		super();
+		this.m = model;
+		this.a = method;
+		this.msg = content;
+		this.isuser = isuser;
+		this.company_id = company_id;
+		this.token = token;
+		this.image = image;
+		this.onNetRequestListener = onNetRequestListener;
+		params = new ArrayList<NameValuePair>();
+	}
+
+	@Override
+	protected TucaoResponseBean doInBackground(Void... arg0) {
+		try {
+			MultipartEntity resEntity = new MultipartEntity();
+			resEntity.addPart("msg", new StringBody(msg, Charset.forName("UTF-8")));
+			if (!TextUtils.isEmpty(image)) {
+				FileBody imageFile = new FileBody(new File(image), "image/jpg", "UTF-8");
+				resEntity.addPart("image", imageFile);
+				a="addMsgPic";
+			}
+			params.add(new BasicNameValuePair("m", m));
+			params.add(new BasicNameValuePair("a", a));
+			params.add(new BasicNameValuePair("company_id", String.valueOf(company_id)));
+			params.add(new BasicNameValuePair("isuser", isuser));
+			params.add(new BasicNameValuePair("token", token));
+
+			
+			
+
+			URI uri = UriUtil.getTucaoUri(params);
+
+			String result = HttpUtil.doPostRequestWithFile(uri, resEntity);
+			Gson gson = new Gson();
+			return gson.fromJson(result, TucaoResponseBean.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	protected void onPostExecute(TucaoResponseBean result) {
+		super.onPostExecute(result);
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(result);
+			System.out.print(result);
+		}
+	}
+
+	@Override
+	protected void onCancelled() {
+		super.onCancelled();
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(null);
+		}
+	}
+}

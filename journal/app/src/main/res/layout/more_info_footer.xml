@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
+
+    <LinearLayout
+        android:id="@+id/loading_state_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="25dip"
+        android:layout_marginTop="25dip"
+        android:orientation="horizontal" >
+
+        <ProgressBar
+            android:id="@+id/pgb_loading"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="19dip"
+            android:layout_height="19dip"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progressbar_rotate" />
+
+        <TextView
+            android:id="@+id/txt_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6.5dip"
+            android:text="加载中..."
+            android:textColor="#474747"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/more_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="25dip"
+        android:layout_marginTop="25dip"
+        android:background="@drawable/selector_more_footer_bg"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#474747"
+        android:textSize="12sp" />
+
+</RelativeLayout>

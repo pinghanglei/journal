@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/webtest/!svn/ver/8994/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task
+END
+TaskUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svn/webtest/!svn/ver/8088/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task/TaskUtil.java
+END
+GetCommentListTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 171
+/svn/webtest/!svn/ver/8838/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task/GetCommentListTask.java
+END
+GetTokenTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 165
+/svn/webtest/!svn/ver/8877/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task/GetTokenTask.java
+END
+AddZanTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/webtest/!svn/ver/8994/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task/AddZanTask.java
+END
+PostTucaoTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 166
+/svn/webtest/!svn/ver/8929/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task/PostTucaoTask.java
+END
+GetTucaoListTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/svn/webtest/!svn/ver/8960/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task/GetTucaoListTask.java
+END
+LoginTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/webtest/!svn/ver/8849/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task/LoginTask.java
+END
+BaseTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svn/webtest/!svn/ver/8088/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task/BaseTask.java
+END
+AddCommentTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 167
+/svn/webtest/!svn/ver/8620/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/src/com/qtest/tucao/task/AddCommentTask.java
+END

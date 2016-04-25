@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f3f3f3"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="fill_parent"
+        android:layout_height="49dip"
+        android:background="@drawable/popup_menu_title_bar"
+        android:gravity="center"
+        android:text="@string/delete_photo_confirm"
+        android:textColor="#44b600"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/txt_shadow"
+        android:layout_width="fill_parent"
+        android:layout_height="8dip"
+        android:background="@drawable/popup_menu_title_shadow" />
+
+    <Button
+        android:id="@+id/btn_delete_confirm"
+        android:layout_width="fill_parent"
+        android:layout_height="57.5dip"
+        android:layout_marginLeft="17dip"
+        android:layout_marginRight="17dip"
+        android:layout_marginTop="8dip"
+        android:background="@drawable/selector_btn_popup_menu_red_btn"
+        android:padding="5dip"
+        android:text="@string/delete"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="fill_parent"
+        android:layout_height="57.5dip"
+        android:layout_marginBottom="5.5dip"
+        android:layout_marginLeft="17dip"
+        android:layout_marginRight="17dip"
+        android:layout_marginTop="8dip"
+        android:background="@drawable/selector_btn_popup_menu_gray_btn"
+        android:padding="5dip"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+</LinearLayout>

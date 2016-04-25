@@ -1,0 +1,86 @@
+package com.qtest.tucao.model;
+
+import java.io.Serializable;
+
+public class Tucao implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
+	private String up_time;
+	private String msg;
+	private String avatar;
+	private String comment_num;
+	private String image;
+	private String support_num;
+	private String imei;
+	
+	//增加该字段值，默认没有点赞， 以后根据点赞请求更改此值， 
+	//为了显示点赞红图显示增加的一个临时变量，后期需要服务端返回具体的是判断是否已点赞过
+	public int isZan = 0;
+	
+
+	public String getImei() {
+		return imei;
+	}
+
+	public void setImei(String imei) {
+		this.imei = imei;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPdate() {
+		return up_time;
+	}
+
+	public void setPdate(String up_time) {
+		this.up_time = up_time;
+	}
+
+	public String getContent() {
+		return msg;
+	}
+
+	public void setContent(String msg) {
+		this.msg = msg;
+	}
+
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getCommentNum() {
+		return comment_num;
+	}
+	public void setCommentNum(String comment_num) {
+		this.comment_num = comment_num;
+	}
+	public String getImgurl() {
+		return image;
+	}
+	public void setImgurl(String image) {
+		this.image = image;
+	}
+	public String getSupportNum() {
+		return support_num;
+	}
+	public void setSupportNum(String support_num) {
+		this.support_num = support_num;
+	}
+	
+}

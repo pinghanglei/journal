@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/webtest/!svn/ver/8728/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim
+END
+defaut_pop_anim_in.xml
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/webtest/!svn/ver/8728/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/defaut_pop_anim_in.xml
+END
+anim_loading.xml
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/webtest/!svn/ver/8597/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/anim_loading.xml
+END
+defaut_pop_anim_out.xml
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/webtest/!svn/ver/8728/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/defaut_pop_anim_out.xml
+END
+left_in_ainm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/webtest/!svn/ver/8093/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/left_in_ainm.xml
+END
+left_out_ainm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/webtest/!svn/ver/8093/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/left_out_ainm.xml
+END
+right_in_ainm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/webtest/!svn/ver/8093/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/right_in_ainm.xml
+END
+right_out_ainm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/webtest/!svn/ver/8093/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/right_out_ainm.xml
+END
+rotate_loading.xml
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/webtest/!svn/ver/8421/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/rotate_loading.xml
+END
+popup_anim_in.xml
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/webtest/!svn/ver/8264/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/popup_anim_in.xml
+END
+popup_anim_out.xml
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/webtest/!svn/ver/8265/Mobile%20Automation%20Test/Android%E8%87%AA%E5%8A%A8%E5%8C%96/%E5%B0%8F%E5%B7%A5%E5%85%B7/tucao/res/anim/popup_anim_out.xml
+END

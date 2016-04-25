@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/padding_medium"
+    android:paddingRight="@dimen/padding_medium" >
+
+    <LinearLayout
+        android:id="@+id/item_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_hot_item_bg"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_medium" >
+
+        <LinearLayout
+            android:id="@+id/share_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:background="@drawable/selector_hot_item_news_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_medium" >
+
+            <ImageView
+                android:id="@+id/share_img"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:background="@color/white"
+                android:contentDescription="@string/contentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/share_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_medium"
+                    android:maxLines="2"
+                    android:text="邓波儿银幕形象aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                    android:textColor="@color/readed_text_color"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" >
+
+                    <TextView
+                        android:id="@+id/zan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/icon_neirong_zan"
+                        android:drawablePadding="@dimen/padding_medium"
+                        android:gravity="center_vertical"
+                        android:text="232"
+                        android:textColor="@color/lightgray_text_color" />
+
+                    <TextView
+                        android:id="@+id/share_read"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/icon_neirong_pinglun"
+                        android:drawablePadding="@dimen/padding_medium"
+                        android:gravity="center_vertical"
+                        android:text="111"
+                        android:textColor="@color/lightgray_text_color" />
+
+                   <TextView
+                        android:id="@+id/share_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/icon_neirong_zan"
+                        android:drawablePadding="@dimen/padding_medium"
+                        android:gravity="center_vertical"
+                        android:text="平航磊"
+                        android:textColor="@color/lightgray_text_color" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

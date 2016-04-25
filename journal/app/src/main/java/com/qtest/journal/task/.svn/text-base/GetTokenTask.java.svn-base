@@ -1,0 +1,80 @@
+package com.qtest.tucao.task;
+
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.util.ArrayList;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import android.app.Activity;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.qtest.tucao.httpUtils.HttpUtil;
+import com.qtest.tucao.httpUtils.UriUtil;
+import com.qtest.tucao.httpUtils.UriUtil.OnNetRequestListener;
+import com.qtest.tucao.model.TokenResponseBean;
+
+public class GetTokenTask extends BaseTask<Void, Void, TokenResponseBean> {
+
+	// private Activity activity;
+	private String m;
+	private String a;
+	private String imei;
+	private String company_id;
+	private ArrayList<NameValuePair> parameters;
+
+	private OnNetRequestListener<TokenResponseBean> onNetRequestListener;
+
+	public GetTokenTask(Activity activity, String imei, int company_id, OnNetRequestListener<TokenResponseBean> onNetRequestListener) {
+		super();
+		// this.activity = activity;
+		this.m = "User";
+		this.a = "getToken";
+		this.imei = imei;
+		this.company_id = String.valueOf(company_id);
+		this.onNetRequestListener = onNetRequestListener;
+	}
+
+	@Override
+	protected TokenResponseBean doInBackground(Void... arg0) {
+		try {
+			parameters = new ArrayList<NameValuePair>();
+			parameters.add(new BasicNameValuePair("m", m));
+			parameters.add(new BasicNameValuePair("a", a));
+			parameters.add(new BasicNameValuePair("imei", imei));
+			parameters.add(new BasicNameValuePair("company_id", company_id));
+
+			URI uri = UriUtil.getTucaoUri(parameters);
+
+			String result = HttpUtil.doGetRequest(uri);
+			Gson gson = new Gson();
+
+			Type type = new TypeToken<TokenResponseBean>() {
+			}.getType();
+			return gson.fromJson(result, type);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	protected void onPostExecute(TokenResponseBean result) {
+		super.onPostExecute(result);
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(result);
+			System.out.print(result);
+		}
+	}
+
+	@Override
+	protected void onCancelled() {
+		super.onCancelled();
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(null);
+		}
+	}
+}

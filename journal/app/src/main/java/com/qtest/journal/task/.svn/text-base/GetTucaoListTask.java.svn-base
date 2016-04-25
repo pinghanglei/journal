@@ -1,0 +1,93 @@
+package com.qtest.tucao.task;
+
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.util.List;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.os.Build;
+
+import com.qtest.tucao.httpUtils.HttpUtil;
+import com.qtest.tucao.httpUtils.UriUtil;
+import com.qtest.tucao.httpUtils.UriUtil.OnNetRequestListener;
+import com.qtest.tucao.model.Tucao;
+import com.qtest.tucao.model.Result;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+public class GetTucaoListTask extends BaseTask<Void, Void, Result<List<Tucao>>> {
+	private Context context;
+
+	private int start;
+
+	private String token;
+	private int company_id;
+	private String method = "getMsg";
+	private String method_getMore = "getMsgMore";
+	private String model = "Msg";
+	private boolean isMore = false;
+
+	private OnNetRequestListener<Result<List<Tucao>>> onNetRequestListener;
+
+	public GetTucaoListTask(Context context, int start, String token,
+			int company_id,
+			OnNetRequestListener<Result<List<Tucao>>> onNetRequestListener,
+			boolean isMore) {
+		super();
+		this.context = context;
+		this.start = start;
+		this.token = token;
+		this.company_id = company_id;
+		this.onNetRequestListener = onNetRequestListener;
+		this.isMore = isMore;
+	}
+
+	@Override
+	protected Result<List<Tucao>> doInBackground(Void... params) {
+		try {
+			URI uri;
+			if (isMore) {
+				uri = UriUtil.getTucaoListUri(context, model, method_getMore,
+						start, company_id, token);
+			} else {
+				uri = UriUtil.getTucaoListUri(context, model, method, start,
+						company_id, token);
+			}
+
+			String result = HttpUtil.doGetRequest(uri);
+			Gson gson = new Gson();
+			Type type = new TypeToken<Result<List<Tucao>>>() {
+			}.getType();
+			return gson.fromJson(result, type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	protected void onPostExecute(Result<List<Tucao>> result) {
+		super.onPostExecute(result);
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(result);
+		}
+	}
+
+	@Override
+	protected void onCancelled() {
+		super.onCancelled();
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(null);
+		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
+	protected void onCancelled(Result<List<Tucao>> result) {
+		super.onCancelled(result);
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(null);
+		}
+	}
+}

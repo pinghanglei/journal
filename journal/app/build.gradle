@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.webtest.tester.journal"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    //    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile files('libs/gson-2.2.4.jar')
+    compile files('libs/httpmime-4.2.5.jar')
+    compile files('libs/IncrementSdk.jar')
+    compile files('libs/volley.jar')
+    compile files('libs/universal-image-loader-1.9.1.jar')
+    compile files('libs/GexinSdk.jar')
+}

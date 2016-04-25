@@ -1,0 +1,292 @@
+package com.qtest.tucao.util;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
+import java.util.UUID;
+
+import org.apache.http.NameValuePair;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Environment;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
+
+public class BaseUtil {
+	/**
+	 * SD卡是否已经安装
+	 * 
+	 * @return
+	 */
+	public static boolean isMounted() {
+		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+	}
+
+	/**
+	 * 获取SD卡根路径
+	 * 
+	 * @return
+	 */
+	public static String getSDCardPath() {
+		return Environment.getExternalStorageDirectory().getPath() + File.separator;
+	}
+
+	/**
+	 * 获取MD5值
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public static String getMD5code(String string) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(string.getBytes());
+			byte b[] = md.digest();
+			StringBuffer buf = new StringBuffer("");
+			for (int offset = 0; offset < b.length; offset++) {
+				int i = b[offset];
+				if (i < 0)
+					i += 256;
+				if (i < 16)
+					buf.append("0");
+				buf.append(Integer.toHexString(i));
+			}
+			return buf.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 判断是否在2G|3G状态下
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static boolean isNetTypeMobile(Context context) {
+		ConnectivityManager conManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (conManager == null) {
+			return false;
+		}
+		NetworkInfo network = conManager.getActiveNetworkInfo();
+		if (network == null) {
+			return false;
+		}
+		int netType = network.getType();
+		if (ConnectivityManager.TYPE_MOBILE == netType) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 返回网络类型
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static int getNetType(Context context) {
+		int type = -1;
+		ConnectivityManager conManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (conManager == null) {
+			return type;
+		}
+		NetworkInfo network = conManager.getActiveNetworkInfo();
+		if (network == null) {
+			return type;
+		}
+		return network.getType();
+	}
+
+	/**
+	 * 是否连接WIFI网络
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static boolean isWifiConnected(Context context) {
+		if (context == null) {
+			return false;
+		}
+		return ConnectivityManager.TYPE_WIFI == getNetType(context);
+	}
+
+	public static byte[] bmpToByteArray(final Bitmap bmp, boolean needRecycle) {
+		if (bmp == null) {
+			return null;
+		}
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		bmp.compress(CompressFormat.JPEG, 65, output);
+		if (needRecycle) {
+			bmp.recycle();
+		}
+
+		byte[] result = output.toByteArray();
+		try {
+			output.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public static String getVersionName(Context ctx) {
+		String res = "";
+		if (ctx == null)
+			return res;
+		PackageInfo packageInfo = null;
+		try {
+			packageInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+			res = packageInfo.versionName;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public static int getVersionCode(Context ctx) {
+		int res = -1;
+		if (ctx == null)
+			return res;
+		PackageInfo packageInfo = null;
+		try {
+			packageInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+			res = packageInfo.versionCode;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public static String getSign(ArrayList<NameValuePair> params, String secretKey) {
+		ArrayList<String> sortList = new ArrayList<String>();
+
+		for (NameValuePair valuePair : params) {
+			sortList.add(valuePair.getName() + "=" + valuePair.getValue());
+		}
+
+		Collections.sort(sortList);
+
+		StringBuilder sb = new StringBuilder();
+
+		for (String param : sortList) {
+			sb.append(param);
+		}
+
+		sb.append(secretKey);
+		Log.d("getSign", sb.toString());
+		return getMD5code(sb.toString());
+	}
+
+	/**
+	 * 获取屏幕密度
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static float getDensity(Activity context) {
+		// // 获取屏幕密度
+		DisplayMetrics dm = new DisplayMetrics();
+		context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+		// // 屏幕密度（像素比例：0.75/1.0/1.5/2.0）
+		return dm.density;
+	}
+
+	/**
+	 * 获取mac地址|mid
+	 * 
+	 * @param cxt
+	 * @return
+	 */
+	public static String getGuid(Context context) {
+
+		WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		String guid = null;
+		if (wifi != null) {
+			WifiInfo info = wifi.getConnectionInfo();
+			if (info != null) {
+				guid = info.getMacAddress();
+				guid = BaseUtil.getMD5code(guid);
+			}
+		}
+		if (TextUtils.isEmpty(guid)) {
+			TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+			String imei = tm.getDeviceId();
+			guid = BaseUtil.getMD5code(imei);
+			if (TextUtils.isEmpty(guid)) {
+				guid = UUID.randomUUID().toString();
+			}
+
+		}
+
+		return guid;
+	}
+
+	/**
+	 * 转化时间 "yyyy-MM-dd HH:mm:ss" 为时间戳
+	 * 
+	 * @param timeString
+	 *            "yyyy-MM-dd HH:mm:ss"
+	 * @return
+	 */
+	public static long parseTime(String timeString) {
+		long timestamp = 0;
+		if (TextUtils.isEmpty(timeString))
+			return timestamp;
+		try {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+			Date date = simpleDateFormat.parse(timeString);
+			timestamp = date.getTime();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return timestamp;
+	}
+
+	/**
+	 * 转化时间
+	 * 
+	 * @param timestamp
+	 * @return
+	 */
+	public static String formatTime(long timestamp) {
+		long nowTimestamp = System.currentTimeMillis();
+		// 如果时间差 <= 0秒，则修正为1秒钟前
+		int deltaSeconds = Math.max(1, (int) ((nowTimestamp - timestamp) / 1000));
+
+		if (deltaSeconds < 60) {
+			return "刚刚";
+		}
+		// 规则2: 小于1小时的，显示xx分钟前
+		if (deltaSeconds < 3600 && deltaSeconds > 60) {
+			return (int) Math.max(1, Math.floor(deltaSeconds / 60)) + "分钟前";
+		}
+		if (deltaSeconds < 86400) {
+			return (int) Math.floor(deltaSeconds / 3600) + "小时前";
+		}
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月dd日 HH:mm", Locale.getDefault());
+		return simpleDateFormat.format(timestamp);
+	}
+
+	public static String getIMEI(Context context) {
+		TelephonyManager teleManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		return teleManager.getDeviceId();
+	}
+}

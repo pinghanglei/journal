@@ -1,0 +1,763 @@
+package com.qtest.journal.widget;
+
+import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.support.v4.view.ViewCompat;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.View;
+import android.view.ViewParent;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Scroller;
+import android.widget.TextView;
+
+import com.qtest.journal.R;
+import com.qtest.journal.util.BaseUtil;
+import com.qtest.journal.util.ConfigUtil;
+
+
+public class PullRefreshView extends RelativeLayout {
+	/**
+	 * 正常状态
+	 */
+	public static final int NORMAL_STATE = -1;
+	/**
+	 * 下拉刷新
+	 */
+	public static final int PULL_TO_FRESH = 0;
+	/**
+	 * 松开刷新
+	 */
+	public static final int RELEASE_TO_FRESH = 1;
+	/**
+	 * 加载中
+	 */
+	public static final int LOADING = 2;
+
+	private int duration = 250;
+
+	private Scroller mScroller;
+
+	private View pull_fresh_header;
+	private Pull_Listenner pull_refresh_view;
+	private TextView pull_fresh_header_text;
+	// private ProgressBar progressBar;
+	private ImageView arrow;
+	private ImageView anim_view;
+	private TextView pull_fresh_header_time;
+	private OnRefreshStateChangedListener refreshStateChangedListener;
+
+	/**
+	 * 刷新栏高度
+	 */
+	private int hHeight;
+	/**
+	 * 当前状态
+	 */
+	private int state = NORMAL_STATE;
+
+	private OnRefreshListener refreshListener;
+
+	// private RotateAnimation animation;
+	// private RotateAnimation reverseAnimation;
+
+	/**
+	 * 设置是否可以下拉
+	 */
+	private boolean isDownAble = true;
+
+	public PullRefreshView(Context context) {
+		super(context);
+	}
+
+	public PullRefreshView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+
+	public PullRefreshView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+	}
+
+	@Override
+	protected void onFinishInflate() {
+		// animation = new RotateAnimation(0, -180,
+		// RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+		// RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+		// animation.setInterpolator(new LinearInterpolator());
+		// animation.setDuration(150);
+		// animation.setFillAfter(true);
+		//
+		// reverseAnimation = new RotateAnimation(-180, 0,
+		// RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+		// RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+		// reverseAnimation.setInterpolator(new LinearInterpolator());
+		// reverseAnimation.setDuration(150);
+		// reverseAnimation.setFillAfter(true);
+		//
+		// Interpolator interpolator = new AccelerateInterpolator();
+		// mScroller = new Scroller(getContext(), interpolator);
+		//
+		// pull_fresh_header = findViewById(R.id.fresh_header);
+		// if (pull_fresh_header != null) {
+		// View text = pull_fresh_header
+		// .findViewById(R.id.pull_fresh_header_text);
+		// if (text instanceof TextView) {
+		// pull_fresh_header_text = (TextView) text;
+		// }
+		// progressBar = (ProgressBar) pull_fresh_header
+		// .findViewById(R.id.pull_fresh_header_progressbar);
+		// arrow = pull_fresh_header
+		// .findViewById(R.id.pull_fresh_header_arrow);
+		// } else {
+		// isDownAble = false;
+		// }
+		//
+		// pull_refresh_view = (Pull_Listenner) findViewById(R.id.listview);
+		Interpolator interpolator = new AccelerateInterpolator();
+		mScroller = new Scroller(getContext(), interpolator);
+
+		pull_fresh_header = findViewById(R.id.fresh_header);
+		if (pull_fresh_header != null) {
+			View text = pull_fresh_header
+					.findViewById(R.id.pull_fresh_header_text);
+			if (text instanceof TextView) {
+				pull_fresh_header_text = (TextView) text;
+			}
+			View time = pull_fresh_header
+					.findViewById(R.id.pull_fresh_header_time);
+			if (time instanceof TextView) {
+				pull_fresh_header_time = (TextView) time;
+			}
+			// progressBar = (ProgressBar)
+			// pull_fresh_header.findViewById(R.id.pull_fresh_header_progressbar);
+			arrow = (ImageView) pull_fresh_header
+					.findViewById(R.id.pull_fresh_header_arrow);
+			anim_view = (ImageView) pull_fresh_header
+					.findViewById(R.id.pull_fresh_header_anim);
+		} else {
+			isDownAble = false;
+		}
+
+		pull_refresh_view = (Pull_Listenner) findViewById(R.id.listview);
+
+	}
+
+	@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		super.onLayout(changed, l, t, r, b);
+		if (pull_fresh_header != null) {
+			hHeight = pull_fresh_header.getMeasuredHeight();
+			pull_fresh_header.layout(0, -hHeight,
+					pull_fresh_header.getMeasuredWidth(), 0);
+		}
+	}
+
+	/**
+	 * 当前的 Y滚动值
+	 */
+	private int currentScrollY;
+
+	/**
+	 * 上次的event Y位置
+	 */
+	private float mLastY;
+	private VelocityTracker mVelocityTracker;
+
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		boolean isHandled = super.onInterceptTouchEvent(ev);
+		if (mVelocityTracker == null) {
+			mVelocityTracker = VelocityTracker.obtain();
+		}
+		mVelocityTracker.addMovement(ev);
+
+		float y = ev.getRawY();
+		int action = ev.getAction();
+		if (action == MotionEvent.ACTION_DOWN) {
+			mLastY = y;
+		}
+
+		switch (action) {
+		case MotionEvent.ACTION_DOWN:
+			if (state != LOADING) {
+				if (pull_fresh_header != null) {
+					pull_fresh_header_text.setText(getResources().getString(
+							R.string.pull_fresh_header_text1));
+					// progressBar.setVisibility(View.INVISIBLE);
+					anim_view.setVisibility(View.INVISIBLE);
+					arrow.setVisibility(View.VISIBLE);
+				}
+			}
+			break;
+		case MotionEvent.ACTION_MOVE:
+			VelocityTracker velocityTracker = mVelocityTracker;
+			velocityTracker.computeCurrentVelocity(1000);
+			float velocityY = velocityTracker.getYVelocity();
+			float velocityX = velocityTracker.getXVelocity();
+			float ratio = velocityX / velocityY;
+			if (state == LOADING && currentScrollY != 0
+					&& Math.abs(velocityY) > 5) {
+				isHandled = true;
+				break;
+			}
+			if (velocityY > 20 && Math.abs(ratio) < 1) {
+				// 网络是否连接
+				if (isDownAble) {
+					isHandled = pull_refresh_view.isPullDownAble();
+					// 如果正在加载中则不改变当前状态
+					if (state != LOADING) {
+						state = PULL_TO_FRESH;
+						if (refreshStateChangedListener != null) {
+							refreshStateChangedListener.onBeforePullToRefresh();
+						}
+						long refreshTime = ConfigUtil
+								.getRefreshTime(getContext());
+						System.out.print(refreshTime);
+						if (refreshTime != 0) {
+							String time = BaseUtil.formatTime(refreshTime)
+									+ "更新";
+							pull_fresh_header_time.setText(time);
+							pull_fresh_header_time.setVisibility(View.VISIBLE);
+						} else {
+							pull_fresh_header_time.setVisibility(View.GONE);
+						}
+					}
+				}
+			}
+
+			mLastY = y;
+			break;
+		case MotionEvent.ACTION_CANCEL:
+		case MotionEvent.ACTION_UP:
+			if (mVelocityTracker != null) {
+				mVelocityTracker.recycle();
+				mVelocityTracker = null;
+			}
+			break;
+		}
+		return isHandled;
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		float y = event.getRawY();
+		int action = event.getAction();
+		if (action == MotionEvent.ACTION_DOWN) {
+			mLastY = y;
+		}
+		// 如果在做动画则不控制view
+		if (!mScroller.isFinished()) {
+			// 防止自动滚动后 touch跳动
+			mLastY = y;
+			return true;
+		}
+
+		// 下拉
+		switch (action) {
+		case MotionEvent.ACTION_DOWN:
+			break;
+		case MotionEvent.ACTION_MOVE:
+			float dy = y - mLastY;
+			if (Math.abs(dy) > 50) {
+				dy = dy > 0 ? 50 : -50;
+			}
+			currentScrollY = (int) -dy + currentScrollY;
+			if (currentScrollY > 0) {
+				// 防止上拉
+				currentScrollY = 0;
+			} else {
+				// 防止滚动过远
+				if (currentScrollY < (-hHeight) * 3) {
+					currentScrollY = (-hHeight) * 3;
+				}
+				if (state == NORMAL_STATE) {
+					state = PULL_TO_FRESH;
+					pull_fresh_header_text.setText(getResources().getString(
+							R.string.pull_fresh_header_text1));
+					// progressBar.setVisibility(View.INVISIBLE);
+					anim_view.setVisibility(View.INVISIBLE);
+
+					arrow.setVisibility(View.VISIBLE);
+				}
+				if (-currentScrollY > hHeight && state == PULL_TO_FRESH) {
+					// arrow.setImageResource(R.drawable.after_pull_down);
+					// arrow.clearAnimation();
+					// arrow.startAnimation(animation);
+					pull_fresh_header_text.setText(getResources().getString(
+							R.string.pull_fresh_header_text2));
+					state = RELEASE_TO_FRESH;
+				}
+				int base_level = hHeight / 5;
+				int level = 0;
+				if (base_level == 0) {
+					level = Math.abs(currentScrollY / base_level);
+				}
+				if (level > 7) {
+					level = 7;
+				}
+				arrow.setImageLevel(level);
+				if (-currentScrollY <= hHeight && state == RELEASE_TO_FRESH) {
+					// arrow.setImageResource(R.drawable.pre_pull_down);
+					// arrow.clearAnimation();
+					// arrow.startAnimation(reverseAnimation);
+					pull_fresh_header_text.setText(getResources().getString(
+							R.string.pull_fresh_header_text1));
+					state = PULL_TO_FRESH;
+				}
+			}
+			if (currentScrollY < 0) {
+				final ViewParent parent = getParent();
+				if (parent != null) {
+					parent.requestDisallowInterceptTouchEvent(true);
+				}
+			}
+			scrollTo(0, currentScrollY);
+			mLastY = y;
+			break;
+		case MotionEvent.ACTION_CANCEL:
+		case MotionEvent.ACTION_UP:
+			if (mVelocityTracker != null) {
+				mVelocityTracker.recycle();
+				mVelocityTracker = null;
+			}
+			switch (state) {
+			case RELEASE_TO_FRESH:
+				// 松开刷新
+				refresh();
+				break;
+			case LOADING:
+				// 如果正在加载中 下拉后滚动回来
+				if (-currentScrollY > hHeight) {
+					mScroller.startScroll(0, -currentScrollY, 0, hHeight
+							+ currentScrollY, duration);
+					ViewCompat.postInvalidateOnAnimation(this);
+					currentScrollY = -hHeight;
+				}
+				break;
+			case PULL_TO_FRESH:
+				// 松开返回初始状态
+				mScroller.startScroll(0, -currentScrollY, 0, currentScrollY,
+						duration);
+				ViewCompat.postInvalidateOnAnimation(this);
+				currentScrollY = 0;
+
+				if (refreshStateChangedListener != null) {
+					refreshStateChangedListener.onNormalState();
+				}
+				break;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * 运行下拉刷新接口
+	 */
+	public void refresh() {
+		if (refreshStateChangedListener != null) {
+			refreshStateChangedListener.onRefresh();
+		}
+
+		// 避免多次刷新
+		if (state == LOADING) {
+			return;
+		}
+
+		pull_fresh_header_text.setText("加载中...");
+		// progressBar.setVisibility(View.VISIBLE);
+		anim_view.setVisibility(View.VISIBLE);
+		if (anim_view != null) {
+			anim_view.setImageResource(R.anim.anim_loading);
+			AnimationDrawable animationDrawable1 = (AnimationDrawable) anim_view
+					.getDrawable();
+			animationDrawable1.start();
+		}
+		arrow.setVisibility(View.INVISIBLE);
+		mScroller.startScroll(0, -currentScrollY, 0, hHeight + currentScrollY,
+				duration);
+		ViewCompat.postInvalidateOnAnimation(this);
+		currentScrollY = -hHeight;
+		state = LOADING;
+
+		if (refreshListener != null) {
+			refreshListener.onRefresh();
+		}
+
+		long refreshTime = ConfigUtil.getRefreshTime(getContext());
+		if (refreshTime != 0) {
+			String time = BaseUtil.formatTime(refreshTime) + "更新";
+			pull_fresh_header_time.setText(time);
+			pull_fresh_header_time.setVisibility(View.VISIBLE);
+		} else {
+			pull_fresh_header_time.setVisibility(View.GONE);
+		}
+	}
+
+	/**
+	 * 下拉刷新加载完成
+	 */
+	public void completeRefresh() {
+		state = NORMAL_STATE;
+		requestDisallowInterceptTouchEvent(true);
+		if (refreshStateChangedListener != null) {
+			refreshStateChangedListener.onNormalState();
+		}
+		if (currentScrollY == 0) {
+			return;
+		}
+		mScroller.startScroll(0, -currentScrollY, 0, currentScrollY, duration);
+		ViewCompat.postInvalidateOnAnimation(this);
+		currentScrollY = 0;
+	}
+
+	/**
+	 * 下拉刷新监听
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	public interface OnRefreshListener {
+		/**
+		 * 下拉刷新监听方法
+		 */
+		public void onRefresh();
+
+	}
+
+	/**
+	 * 设舒心监听器
+	 * 
+	 * @param refreshListener
+	 */
+	public void setRefreshListener(OnRefreshListener refreshListener) {
+		this.refreshListener = refreshListener;
+	}
+
+	public interface OnRefreshStateChangedListener {
+		public void onBeforePullToRefresh();
+
+		public void onRefresh();
+
+		public void onNormalState();
+	}
+
+	public void setOnRefreshStateChangedListener(
+			OnRefreshStateChangedListener listener) {
+		this.refreshStateChangedListener = listener;
+	}
+
+	@Override
+	public void computeScroll() {
+		if (mScroller.computeScrollOffset()) {
+			int currX = mScroller.getCurrX();
+			int currY = mScroller.getCurrY();
+			scrollTo(currX, -currY);
+			ViewCompat.postInvalidateOnAnimation(this);
+		}
+	}
+
+	public Pull_Listenner getPull_refresh_view() {
+		return pull_refresh_view;
+	}
+
+	/**
+	 * 设置是否可以下拉刷新
+	 * 
+	 * @param isDowanAble
+	 */
+	public void setDowanAble(boolean isDowanAble) {
+		// 存在下拉头才可以设置
+		if (pull_fresh_header != null) {
+			this.isDownAble = isDowanAble;
+		}
+	}
+
+	public interface Pull_Listenner {
+		/**
+		 * @return 是否可以下拉
+		 */
+		public boolean isPullDownAble();
+	}
+
+	// public void setChannelId(String channelId) {
+	// this.channelId = channelId;
+	// }
+	// @Override
+	// protected void onLayout(boolean changed, int l, int t, int r, int b) {
+	// super.onLayout(changed, l, t, r, b);
+	// if (pull_fresh_header != null) {
+	// hHeight = pull_fresh_header.getMeasuredHeight();
+	// pull_fresh_header.layout(0, -hHeight,
+	// pull_fresh_header.getMeasuredWidth(), 0);
+	// }
+	// }
+	//
+	// /**
+	// * 当前的 Y滚动值
+	// */
+	// private int currentScrollY;
+	//
+	// /**
+	// * 上次的event Y位置
+	// */
+	// private float mLastY;
+	// private VelocityTracker mVelocityTracker;
+	//
+	// @Override
+	// public boolean onInterceptTouchEvent(MotionEvent ev) {
+	// boolean isHandled = super.onInterceptTouchEvent(ev);
+	// if (mVelocityTracker == null) {
+	// mVelocityTracker = VelocityTracker.obtain();
+	// }
+	// mVelocityTracker.addMovement(ev);
+	//
+	// float y = ev.getRawY();
+	// int action = ev.getAction();
+	// if (action == MotionEvent.ACTION_DOWN) {
+	// mLastY = y;
+	// }
+	//
+	// switch (action) {
+	// case MotionEvent.ACTION_DOWN:
+	// if (state != LOADING) {
+	// if (pull_fresh_header != null) {
+	// pull_fresh_header_text.setText(getResources().getString(
+	// R.string.pull_down_refresh));
+	// progressBar.setVisibility(View.GONE);
+	// arrow.setVisibility(View.VISIBLE);
+	// }
+	// }
+	// break;
+	// case MotionEvent.ACTION_MOVE:
+	// VelocityTracker velocityTracker = mVelocityTracker;
+	// velocityTracker.computeCurrentVelocity(1000);
+	// float velocityY = velocityTracker.getYVelocity();
+	// float velocityX = velocityTracker.getXVelocity();
+	// float ratio = velocityX / velocityY;
+	// if (state == LOADING && currentScrollY != 0
+	// && Math.abs(velocityY) > 5) {
+	// isHandled = true;
+	// break;
+	// }
+	// if (velocityY > 20 && Math.abs(ratio) < 1) {
+	// // 网络是否连接
+	// if (isDownAble) {
+	// isHandled = pull_refresh_view.isPullDownAble();
+	// // 如果正在加载中则不改变当前状态
+	// if (state != LOADING) {
+	// state = PULL_TO_FRESH;
+	//
+	// }
+	// }
+	// }
+	//
+	// mLastY = y;
+	// break;
+	// case MotionEvent.ACTION_CANCEL:
+	// case MotionEvent.ACTION_UP:
+	// if (mVelocityTracker != null) {
+	// mVelocityTracker.recycle();
+	// mVelocityTracker = null;
+	// }
+	// break;
+	// }
+	// return isHandled;
+	// }
+	//
+	// @Override
+	// public boolean onTouchEvent(MotionEvent event) {
+	// float y = event.getRawY();
+	// int action = event.getAction();
+	// if (action == MotionEvent.ACTION_DOWN) {
+	// mLastY = y;
+	// }
+	// // 如果在做动画则不控制view
+	// if (!mScroller.isFinished()) {
+	// // 防止自动滚动后 touch跳动
+	// mLastY = y;
+	// return true;
+	// }
+	//
+	// // 下拉
+	// switch (action) {
+	// case MotionEvent.ACTION_DOWN:
+	// break;
+	// case MotionEvent.ACTION_MOVE:
+	// float dy = y - mLastY;
+	// if (Math.abs(dy) > 50) {
+	// dy = dy > 0 ? 50 : -50;
+	// }
+	// currentScrollY = (int) -dy + currentScrollY;
+	// if (currentScrollY > 0) {
+	// // 防止上拉
+	// currentScrollY = 0;
+	// } else {
+	// // 防止滚动过远
+	// if (currentScrollY < (-hHeight) * 3) {
+	// currentScrollY = (-hHeight) * 3;
+	// }
+	// if (state == NORMAL_STATE) {
+	// state = PULL_TO_FRESH;
+	// pull_fresh_header_text.setText(getResources().getString(
+	// R.string.pull_down_refresh));
+	// progressBar.setVisibility(View.GONE);
+	//
+	// arrow.setVisibility(View.VISIBLE);
+	// }
+	// if (-currentScrollY > hHeight && state == PULL_TO_FRESH) {
+	// arrow.clearAnimation();
+	// arrow.startAnimation(animation);
+	// pull_fresh_header_text.setText(getResources().getString(
+	// R.string.loosen_refresh));
+	// state = RELEASE_TO_FRESH;
+	// }
+	//
+	// if (-currentScrollY <= hHeight && state == RELEASE_TO_FRESH) {
+	// arrow.clearAnimation();
+	// arrow.startAnimation(reverseAnimation);
+	// pull_fresh_header_text.setText(getResources().getString(
+	// R.string.pull_down_refresh));
+	// state = PULL_TO_FRESH;
+	// }
+	// }
+	// if (currentScrollY < 0) {
+	// final ViewParent parent = getParent();
+	// if (parent != null) {
+	// parent.requestDisallowInterceptTouchEvent(true);
+	// }
+	// }
+	// scrollTo(0, currentScrollY);
+	// mLastY = y;
+	// break;
+	// case MotionEvent.ACTION_CANCEL:
+	// case MotionEvent.ACTION_UP:
+	// if (mVelocityTracker != null) {
+	// mVelocityTracker.recycle();
+	// mVelocityTracker = null;
+	// }
+	// switch (state) {
+	// case RELEASE_TO_FRESH:
+	// // 松开刷新
+	// refresh();
+	// break;
+	// case LOADING:
+	// // 如果正在加载中，下拉后滚动回来
+	// if (-currentScrollY > hHeight) {
+	// mScroller.startScroll(0, -currentScrollY, 0, hHeight
+	// + currentScrollY, duration);
+	// ViewCompat.postInvalidateOnAnimation(this);
+	// currentScrollY = -hHeight;
+	// }
+	// break;
+	// case PULL_TO_FRESH:
+	// // 松开返回初始状态
+	// mScroller.startScroll(0, -currentScrollY, 0, currentScrollY,
+	// duration);
+	// ViewCompat.postInvalidateOnAnimation(this);
+	// currentScrollY = 0;
+	//
+	// break;
+	// }
+	// }
+	//
+	// return true;
+	// }
+	//
+	// /**
+	// * 运行下拉刷新接口
+	// */
+	// public void refresh() {
+	//
+	// pull_fresh_header_text.setText("加载中...");
+	// progressBar.setVisibility(View.VISIBLE);
+	// arrow.clearAnimation();
+	// arrow.setVisibility(View.GONE);
+	// mScroller.startScroll(0, -currentScrollY, 0, hHeight + currentScrollY,
+	// duration);
+	// ViewCompat.postInvalidateOnAnimation(this);
+	// currentScrollY = -hHeight;
+	// state = LOADING;
+	//
+	// if (refreshListener != null) {
+	// refreshListener.onRefresh();
+	// }
+	//
+	// }
+	//
+	// /**
+	// * 下拉刷新加载完成
+	// */
+	// public void completeRefresh() {
+	// state = NORMAL_STATE;
+	// requestDisallowInterceptTouchEvent(true);
+	//
+	// if (currentScrollY == 0) {
+	// return;
+	// }
+	// mScroller.startScroll(0, -currentScrollY, 0, currentScrollY, duration);
+	// ViewCompat.postInvalidateOnAnimation(this);
+	// currentScrollY = 0;
+	// }
+	//
+	// /**
+	// * 下拉刷新监听
+	// *
+	// * @author Administrator
+	// *
+	// */
+	// public interface OnRefreshListener {
+	// /**
+	// * 下拉刷新监听方法
+	// */
+	// public void onRefresh();
+	//
+	// }
+	//
+	// /**
+	// * 设舒心监听器
+	// *
+	// * @param refreshListener
+	// */
+	// public void setRefreshListener(OnRefreshListener refreshListener) {
+	// this.refreshListener = refreshListener;
+	// }
+	//
+	// @Override
+	// public void computeScroll() {
+	// if (mScroller.computeScrollOffset()) {
+	// int currX = mScroller.getCurrX();
+	// int currY = mScroller.getCurrY();
+	// scrollTo(currX, -currY);
+	// ViewCompat.postInvalidateOnAnimation(this);
+	// }
+	// }
+	//
+	// public Pull_Listenner getPull_refresh_view() {
+	// return pull_refresh_view;
+	// }
+	//
+	// /**
+	// * 设置是否可以下拉刷新
+	// *
+	// * @param isDowanAble
+	// */
+	// public void setDowanAble(boolean isDowanAble) {
+	// // 存在下拉头才可以设置
+	// if (pull_fresh_header != null) {
+	// this.isDownAble = isDowanAble;
+	// }
+	// }
+	//
+	// public interface Pull_Listenner {
+	// /**
+	// * @return 是否可以下拉
+	// */
+	// public boolean isPullDownAble();
+	// }
+
+}

@@ -1,0 +1,58 @@
+package com.qtest.tucao.model;
+
+import java.io.Serializable;
+
+public class Comment implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+	private String id;
+	private String imgurl;
+	private String comment;
+	private String avatar;
+	private String up_time;
+
+
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getImgurl() {
+		return imgurl;
+	}
+	public void setImgurl(String imgurl) {
+		this.imgurl = imgurl;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getContent() {
+		return comment;
+	}
+	public void setContent(String comment) {
+		this.comment = comment;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+	public String getPdate() {
+		return up_time;
+	}
+
+	public void setPdate(String up_time) {
+		this.up_time = up_time;
+	}
+	
+}

@@ -1,0 +1,79 @@
+package com.qtest.tucao.task;
+
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.util.List;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.os.Build;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.qtest.tucao.httpUtils.HttpUtil;
+import com.qtest.tucao.httpUtils.UriUtil;
+import com.qtest.tucao.httpUtils.UriUtil.OnNetRequestListener;
+import com.qtest.tucao.model.Comment;
+import com.qtest.tucao.model.Result;
+
+public class GetCommentListTask extends
+		BaseTask<Void, Void, Result<List<Comment>>> {
+	private Context context;
+	private String tid;
+	private String s;
+	private String token;
+	private OnNetRequestListener<Result<List<Comment>>> onNetRequestListener;
+
+	public GetCommentListTask(Context context, String tid, String s,
+			String token,
+			OnNetRequestListener<Result<List<Comment>>> onNetRequestListener) {
+		super();
+		this.context = context;
+		this.tid = tid;
+		this.s = s;
+		this.token = token;
+		this.onNetRequestListener = onNetRequestListener;
+	}
+
+	@Override
+	protected Result<List<Comment>> doInBackground(Void... params) {
+		try {
+			URI uri = UriUtil.getCommentListUri(context, "Comment",
+					"getComment", tid, s, token);
+			String result = HttpUtil.doGetRequest(uri);
+			Gson gson = new Gson();
+			Type type = new TypeToken<Result<List<Comment>>>() {
+			}.getType();
+			return gson.fromJson(result, type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	protected void onPostExecute(Result<List<Comment>> result) {
+		super.onPostExecute(result);
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(result);
+		}
+	}
+
+	@Override
+	protected void onCancelled() {
+		super.onCancelled();
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(null);
+		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
+	protected void onCancelled(Result<List<Comment>> result) {
+		super.onCancelled(result);
+		if (onNetRequestListener != null) {
+			onNetRequestListener.onNetRequest(null);
+		}
+	}
+
+}

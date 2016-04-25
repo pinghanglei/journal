@@ -1,0 +1,81 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+   
+    <style name="notitle">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+     <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:windowAnimationStyle">@style/NoEnterExitAnimation</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="NoEnterExitAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/right_in_ainm</item>
+        <item name="android:activityOpenExitAnimation">@anim/left_out_ainm</item>
+        <item name="android:activityCloseEnterAnimation">@anim/left_in_ainm</item>
+        <item name="android:activityCloseExitAnimation">@anim/right_out_ainm</item>
+    </style>
+    
+    <style name="ListViewStyle">
+        <item name="android:cacheColorHint">@color/transparent</item>
+        <item name="android:listSelector">@color/transparent</item>
+        <item name="android:divider">@color/transparent</item>
+        <item name="android:dividerHeight">@dimen/padding_medium</item>
+        <item name="android:footerDividersEnabled">false</item>
+        <item name="android:fadingEdge">none</item>
+    </style>
+    
+    <style name="CommentListViewStyle">
+        <item name="android:cacheColorHint">@color/transparent</item>
+        <item name="android:listSelector">@color/transparent</item>
+        <item name="android:divider">@color/divider</item>
+        <item name="android:dividerHeight">0px</item>
+        <item name="android:footerDividersEnabled">false</item>
+        <item name="android:fadingEdge">none</item>
+    </style>
+    
+    <style name="list_item_divider_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/bg_list_devider_color</item>
+    </style>
+    
+    <style name="popup_window">
+        <item name="android:windowEnterAnimation">@anim/popup_anim_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_anim_out</item>
+    </style>
+    
+    <style name="popup_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@null</item>
+        
+    </style>
+        <style name="Theme_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
+    <style name="CustomDialog" parent="@android:Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item><!--activity变暗-->
+    </style>
+    <style name="PopDefaultAnim">
+        <item name="android:windowEnterAnimation">@anim/defaut_pop_anim_in</item>
+        <item name="android:windowExitAnimation">@anim/defaut_pop_anim_out</item>
+    </style>
+    
+    <style name="dialog_text_style">
+        <item name="android:textSize">@dimen/dialog_text_size</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>
+

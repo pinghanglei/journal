@@ -1,0 +1,44 @@
+
+package com.qtest.tucao.model;
+
+import java.io.Serializable;
+
+public class Result<T> implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private int errcode;
+	private T result;
+	private String errmsg;
+	private String  havenext;
+	
+	public int getErr() {
+		return errcode;
+	}
+	public void setErr(int errCode) {
+		this.errcode = errCode;
+	}
+	public T getData() {
+		return result;
+	}
+	public void setData(T result) {
+		this.result = result;
+	}
+	public String getErrMsg() {
+		return errmsg;
+	}
+	public void getErrMsg(String errmsg) {
+		this.errmsg = errmsg;
+	}
+	public String getMore() {
+		return havenext;
+	}
+
+	public void setMore(String havenext) {
+		this.havenext = havenext;
+	}
+
+	
+}

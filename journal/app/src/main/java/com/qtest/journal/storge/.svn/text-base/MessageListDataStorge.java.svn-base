@@ -1,0 +1,98 @@
+package com.qtest.tucao.storge;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.qtest.tucao.model.MessageConstantField;
+import com.qtest.tucao.model.Tucao;
+
+public class MessageListDataStorge {
+
+	private SQLiteDatabase database;
+	private String tableName;
+
+	public MessageListDataStorge(Context context) {
+		database = DataBaseHelper.getInstance(context).getWritableDatabase();
+		tableName = DataBaseHelper.MESSAGE_TABLE_NAME;
+	}
+
+	public boolean insert(List<Tucao> messageList) {
+		if (database == null || messageList == null || messageList.size() == 0)
+			return false;
+		database.beginTransaction();
+		try {
+			database.delete(tableName, null, null);
+			int length = messageList.size();
+			for (int i = 0; i < length; i++) {
+				Tucao tucao = messageList.get(i);
+				ContentValues value = getRowData(tucao);
+				if (value != null) {
+					database.insert(tableName, null, value);
+				}
+			}
+			database.setTransactionSuccessful();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			database.endTransaction();
+		}
+		return true;
+	}
+
+	/**
+	 * 获取数据库保存的最新消息列表 未完成
+	 * 
+	 * @return
+	 */
+	public List<Tucao> getMessageList() {
+		List<Tucao> list = new ArrayList<Tucao>();
+		if (database != null) {
+			Cursor cursor = database.query(tableName, null, null, null, null,
+					null, null);
+			if (cursor == null || cursor.getCount() == 0) {
+				return list;
+			}
+			while (cursor.moveToNext()) {
+				Tucao tucao = new Tucao();
+				String id = cursor.getString(cursor
+						.getColumnIndex(MessageConstantField.ID));
+				String content = cursor.getString(cursor
+						.getColumnIndex(MessageConstantField.CONTENT));
+				String time = cursor.getString(cursor
+						.getColumnIndex(MessageConstantField.TIME));
+				int up = cursor.getInt(cursor
+						.getColumnIndex(MessageConstantField.UP));
+				int comments = cursor.getInt(cursor
+						.getColumnIndex(MessageConstantField.COMMENTS));
+				tucao.setCommentNum(String.valueOf(comments));
+				tucao.setContent(content);
+				tucao.setId(id);
+				tucao.setPdate(time);
+				tucao.setSupportNum(String.valueOf(up));
+				list.add(tucao);
+			}
+		}
+		return list;
+	}
+
+	public ContentValues getRowData(Tucao tucao) {
+		ContentValues value = new ContentValues();
+
+		value.put(MessageConstantField.ID, tucao.getId());
+		value.put(MessageConstantField.IMEI, tucao.getImei());
+		value.put(MessageConstantField.TIME, tucao.getPdate());
+		value.put(MessageConstantField.CONTENT, tucao.getContent());
+		value.put(MessageConstantField.COMMENTS, tucao.getCommentNum());
+		value.put(MessageConstantField.UP, tucao.getSupportNum());
+
+		return value;
+
+	}
+
+}

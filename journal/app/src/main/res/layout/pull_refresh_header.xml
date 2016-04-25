@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp" >
+
+    <LinearLayout
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:minWidth="100dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/pull_fresh_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:minEms="6"
+            android:text="@string/pull_fresh_header_text1"
+            android:textColor="@color/refresh_text_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/pull_fresh_header_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/refresh_time_color"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/pull_fresh_header_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/text"
+        android:contentDescription="@string/contentDescription"
+        android:src="@drawable/pull_down_bg" />
+
+    <ImageView
+        android:id="@+id/pull_fresh_header_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/text"
+        android:contentDescription="@string/contentDescription" />
+
+</RelativeLayout>

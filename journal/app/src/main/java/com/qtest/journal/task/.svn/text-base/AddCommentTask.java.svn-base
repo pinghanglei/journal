@@ -1,0 +1,123 @@
+package com.qtest.tucao.task;
+
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.util.ArrayList;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.Build;
+
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.qtest.tucao.httpUtils.HttpUtil;
+import com.qtest.tucao.httpUtils.UriUtil;
+import com.qtest.tucao.httpUtils.UriUtil.OnNetRequestListener;
+import com.qtest.tucao.model.Result;
+import com.qtest.tucao.util.Log;
+
+public class AddCommentTask extends BaseTask<Void, Void, Result<String>> {
+	private Activity context;
+	private String tid;
+	private String token;
+	private String content;
+	String mlu = "Comment";
+	String type = "addComment";
+	private ArrayList<NameValuePair> params;
+	private OnNetRequestListener<Result<String>> onSendCmtNetRequestListener;
+	
+	public AddCommentTask(Activity context, String tid, String content,String token, 
+			OnNetRequestListener<Result<String>> onSendCmtNetRequestListener) {
+		super();
+		this.context = context;
+		this.tid = tid;
+		this.content = content;
+		this.token = token;
+		this.onSendCmtNetRequestListener = onSendCmtNetRequestListener;
+	}
+
+	private ProgressDialog dialog;
+	@Override
+	protected void onPreExecute() {
+		if(!context.isFinishing()) {
+			dialog = ProgressDialog.show(context, "", "正在发送评论...");
+			dialog.setCancelable(true);
+		}
+		super.onPreExecute();
+	}
+	
+	@Override
+	protected Result<String> doInBackground(Void... args) {
+		try {
+//			URI uri = UriUtil.getAddCmtUri(context);
+//			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+			
+//			params.add(new BasicNameValuePair("tid", tid));
+//			params.add(new BasicNameValuePair("token", token));
+//			params.add(new BasicNameValuePair("content", content));
+//			params.add(new BasicNameValuePair("m", mlu));
+//			params.add(new BasicNameValuePair("a", type));
+//			params.add(new BasicNameValuePair("msg_id", tid));
+//			params.add(new BasicNameValuePair("comment", content));
+//			params.add(new BasicNameValuePair("token", token));
+//			String result = HttpUtil.doPostRequest(uri, params);
+			params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("m", mlu));
+			params.add(new BasicNameValuePair("a", type));
+			params.add(new BasicNameValuePair("msg_id", tid));
+			params.add(new BasicNameValuePair("comment", content));
+			params.add(new BasicNameValuePair("token", token));
+			URI uri = UriUtil.getAddCommenttUri(params);
+//			URI uri = UriUtil.getAddCommenttUri(context, "Comment","addComment",tid,  content, token);
+			String result = HttpUtil.doGetRequest(uri);
+			Log.e("AddCommentTask:"+result);
+			Gson gson = new Gson();
+			Type type = new TypeToken<Result<String>>(){}.getType();
+			return gson.fromJson(result, type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	@Override
+	protected void onPostExecute(Result<String> result) {
+		super.onPostExecute(result);
+		if(dialog!=null&&dialog.isShowing()){
+			dialog.dismiss();
+		}
+		if(onSendCmtNetRequestListener!=null){
+			onSendCmtNetRequestListener.onNetRequest(result);
+		}
+	}
+
+
+	@Override
+	protected void onCancelled() {
+		super.onCancelled();
+		if(dialog!=null&&dialog.isShowing()){
+			dialog.dismiss();
+		}
+		if(onSendCmtNetRequestListener!=null){
+			onSendCmtNetRequestListener.onNetRequest(null);
+		}
+	}
+	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
+	protected void onCancelled(Result<String> result) {
+		super.onCancelled(result);
+		if(dialog!=null&&dialog.isShowing()){
+			dialog.dismiss();
+		}
+		if(onSendCmtNetRequestListener!=null){
+			onSendCmtNetRequestListener.onNetRequest(null);
+		}
+	}
+}

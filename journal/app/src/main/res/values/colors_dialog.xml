@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="default_devide_line">#C8D2D2</color>
+    <color name="default_dialog_bg">#FFFFFF</color>
+</resources>
